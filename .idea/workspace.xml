@@ -27,9 +27,7 @@
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="abcedd9f-88c7-410c-bc32-88cb61f649c7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/pom.xml" afterPath="$PROJECT_DIR$/core/pom.xml" />
-    </list>
+    <list default="true" id="abcedd9f-88c7-410c-bc32-88cb61f649c7" name="Default" comment="" />
     <ignored path="traversaless-viewpager-android.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/pom.xml" changelist="abcedd9f-88c7-410c-bc32-88cb61f649c7" time="1406875785427" ignored="false" />
@@ -110,7 +108,7 @@
       <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="30" selection-start="588" selection-end="588" vertical-scroll-proportion="0.11982881">
+            <state line="16" column="30" selection-start="588" selection-end="588" vertical-scroll-proportion="0.47931525">
               <folding />
             </state>
           </provider>
@@ -679,7 +677,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="30" selection-start="588" selection-end="588" vertical-scroll-proportion="0.11982881">
+        <state line="16" column="30" selection-start="588" selection-end="588" vertical-scroll-proportion="0.47931525">
           <folding />
         </state>
       </provider>
