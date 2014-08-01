@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="@string/general_testcase_desc"
+        android:textSize="14sp"/>
+
+    <ToggleButton
+        android:id="@+id/btnSwitchSmoothScroll"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:textOn="@string/general_disable_smoothscroll"
+        android:textOff="@string/general_enable_smoothscroll"
+        android:textColor="#fa0000"
+        android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnBookshelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pager_item_bookshelf"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/btnFinder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pager_item_finder"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/btnDetector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pager_item_detector"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pager_item_search"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/mainContent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>

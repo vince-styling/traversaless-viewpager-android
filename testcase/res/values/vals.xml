@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">traversaless-viewpager</string>
+
+    <string name="dataset_changed_nothing_change">nothing change</string>
+    <string name="dataset_changed_shuffle">shuffle</string>
+    <string name="dataset_changed_delete_item">delete item</string>
+    <string name="dataset_changed_add_item">add item</string>
+    <string name="dataset_changed_clear">clear</string>
+
+    <string name="general_disable_smoothscroll">Disable SmoothScroll</string>
+    <string name="general_enable_smoothscroll">Enable SmoothScroll</string>
+
+    <string name="menu_general">General Test</string>
+    <string name="menu_dataset_changed">DataSetChanged Test</string>
+    <string name="menu_indicator">Indicator Test</string>
+    <string name="menu_scrolling_speed">Scrolling Speed Test</string>
+
+    <string name="pager_item_bookshelf">Bookshelf</string>
+    <string name="pager_item_finder">Finder</string>
+    <string name="pager_item_detector">Detector</string>
+    <string name="pager_item_search">Search</string>
+
+    <string-array name="action_list">
+        <item>Mine-KeptState</item>
+        <item>Mine-KeptInst</item>
+        <item>Original-KeptState</item>
+        <item>Original-KeptInst</item>
+    </string-array>
+
+    <item name="mainContent" type="id"/>
+    <item name="mainContentPager" type="id"/>
+
+    <dimen name="frag_text_size">12sp</dimen>
+
+    <color name="frag_tab_item_underline">#66c3e1</color>
+    <color name="frag_tab_item_text">#545454</color>
+    <dimen name="frag_tab_item_text">14sp</dimen>
+    <dimen name="frag_tab_item_underline">4dp</dimen>
+
+    <string name="main_description">
+        This application was building as test case of Traversaless(traversal less) ViewPager component
+        which bringing some customization of the most popular android-support ViewPager widget.
+        To be more reasonable, we provided original ViewPager relative to my instance in each Activity,
+        and various PagerAdapter implementation to show you all different between both.
+    </string>
+
+    <string name="general_testcase_desc">
+        You can examine the general behaviors of ViewPage in this test case, including drag to switch page,
+        click each page\'s button to display them, enable or disable smoothScroll effect.
+        you\'ll see the different between mine ViewPager and original ViewPager when you jump
+        through pages(e.g from first page directly to last page via click corresponding button),
+        it\'s my component only purpose does : \"don\'t go through irrelevant page when scrolling,
+        regardless target page how far from current page, make it just like at beside\".
+    </string>
+
+    <string name="datasetchanged_testcase_desc">
+        This test case show you many dataset change method and how PagerAdapter keep their state or instance,
+        you can see what happen in different mode, keep an eye on ViewPager how to maintain the page\'s state.
+        in the logger view, you\'ll see the four fragment\'s lifecycle transform while switch page,
+        the hashCode value can use to estimate whether new instance or not.
+    </string>
+
+    <string name="indicator_testcase_desc">
+        This test case is a sample for ViewPager with Indicator, inspired from JakeWharton\'s project,
+        I achieved this because I modify the default page scroll behaviors,
+        so provide this sample to test \`onPageScrolled()\` event callback and make it work fine.
+        moreover, I also achieved \'FakeDrag()\' mechanism that allow you to switch page via drag on Indicator view.
+    </string>
+
+    <string name="scrollingspeed_testcase_desc">
+        This test case just an extra sample show you how to control ViewPager\'s smooth scroll speed.
+    </string>
+</resources>

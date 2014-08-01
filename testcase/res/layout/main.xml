@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="@string/main_description"
+        android:textSize="16sp"/>
+
+    <ListView
+        android:id="@+id/lsvContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#efefef"
+        android:dividerHeight=".5dp"/>
+
+</LinearLayout>
