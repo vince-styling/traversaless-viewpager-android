@@ -16,13 +16,17 @@
 
 package com.vincestyling.traversaless;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 	private static final String TAG = "FragmentStatePagerAdapter";
@@ -31,8 +35,8 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 	private final FragmentManager mFragmentManager;
 	private FragmentTransaction mCurTransaction = null;
 
-	private ArrayList<Fragment.SavedState> mSavedState = new ArrayList<Fragment.SavedState>();
-	private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
+	private List<SavedStateInfo> mSavedState = new ArrayList<SavedStateInfo>();
+	private List<Fragment> mFragments = new ArrayList<Fragment>();
 	private Fragment mCurrentPrimaryItem = null;
 
 	public FragmentStatePagerAdapter(FragmentManager fm) {
@@ -45,7 +49,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 	public abstract Fragment getItem(int position);
 
 	@Override
-	public void startUpdate(View container) {
+	public void startUpdate(ViewGroup container) {
 	}
 
 	@Override
@@ -68,9 +72,9 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 		Fragment fragment = getItem(position);
 		if (DEBUG) Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
 		if (mSavedState.size() > position) {
-			Fragment.SavedState fss = mSavedState.get(position);
-			if (fss != null) {
-				fragment.setInitialSavedState(fss);
+			SavedStateInfo fsi = mSavedState.get(position);
+			if (fsi != null) {
+				fragment.setInitialSavedState(fsi.state);
 			}
 		}
 		while (mFragments.size() <= position) {
@@ -85,25 +89,48 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(View container, int position, Object object) {
-		Fragment fragment = (Fragment)object;
+		Fragment fragment = (Fragment) object;
 
 		if (mCurTransaction == null) {
 			mCurTransaction = mFragmentManager.beginTransaction();
 		}
 		if (DEBUG) Log.v(TAG, "Removing item #" + position + ": f=" + object
-				+ " v=" + ((Fragment)object).getView());
+				+ " v=" + ((Fragment) object).getView());
 		while (mSavedState.size() <= position) {
 			mSavedState.add(null);
 		}
-		mSavedState.set(position, mFragmentManager.saveFragmentInstanceState(fragment));
+		mSavedState.set(position,
+				new SavedStateInfo(getItemIdentifier(position),
+				mFragmentManager.saveFragmentInstanceState(fragment)));
 		mFragments.set(position, null);
 
 		mCurTransaction.remove(fragment);
 	}
 
 	@Override
+	public void dismissItem(View container, int position, Object object) {
+		Fragment fragment = (Fragment) object;
+
+		if (mCurTransaction == null) {
+			mCurTransaction = mFragmentManager.beginTransaction();
+		}
+		if (DEBUG) Log.v(TAG, "Dismiss item #" + position + ": f=" + object
+				+ " v=" + ((Fragment) object).getView());
+
+		if (mSavedState.size() > position) mSavedState.set(position, null);
+		mFragments.set(position, null);
+
+		mCurTransaction.remove(fragment);
+	}
+
+	@Override
+	public void rearrangeItems(List<Fragment> fragments) {
+		this.mFragments = fragments;
+	}
+
+	@Override
 	public void setPrimaryItem(View container, int position, Object object) {
-		Fragment fragment = (Fragment)object;
+		Fragment fragment = (Fragment) object;
 		if (fragment != mCurrentPrimaryItem) {
 			if (mCurrentPrimaryItem != null) {
 				mCurrentPrimaryItem.setMenuVisibility(false);
@@ -126,7 +153,21 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
-		return ((Fragment)object).getView() == view;
+		return ((Fragment) object).getView() == view;
+	}
+
+	@Override
+	public void rearrangeSavedStates(int newItemCount) {
+		List<SavedStateInfo> savedStates = new ArrayList<SavedStateInfo>(newItemCount);
+		while (savedStates.size() < newItemCount) savedStates.add(null);
+		for (SavedStateInfo state : mSavedState) {
+			if (state == null) continue;
+			int newPos = getItemPosition(state.identifier);
+			if (newPos >= 0 && savedStates.size() > newPos) {
+				savedStates.set(newPos, state);
+			}
+		}
+		mSavedState = savedStates;
 	}
 
 	@Override
@@ -135,10 +176,13 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 		if (mSavedState.size() > 0) {
 			state = new Bundle();
 			Fragment.SavedState[] fss = new Fragment.SavedState[mSavedState.size()];
-			mSavedState.toArray(fss);
+			for (int i = 0; i < mSavedState.size(); i++) {
+				SavedStateInfo fsi = mSavedState.get(i);
+				fss[i] = fsi != null ? fsi.state : null;
+			}
 			state.putParcelableArray("states", fss);
 		}
-		for (int i=0; i<mFragments.size(); i++) {
+		for (int i = 0; i < mFragments.size(); i++) {
 			Fragment f = mFragments.get(i);
 			if (f != null) {
 				if (state == null) {
@@ -154,18 +198,19 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 	@Override
 	public void restoreState(Parcelable state, ClassLoader loader) {
 		if (state != null) {
-			Bundle bundle = (Bundle)state;
+			Bundle bundle = (Bundle) state;
 			bundle.setClassLoader(loader);
 			Parcelable[] fss = bundle.getParcelableArray("states");
 			mSavedState.clear();
 			mFragments.clear();
 			if (fss != null) {
-				for (int i=0; i<fss.length; i++) {
-					mSavedState.add((Fragment.SavedState)fss[i]);
+				for (int pos = 0; pos < fss.length; pos++) {
+					Parcelable fs = fss[pos];
+					mSavedState.add(fs != null ? new SavedStateInfo(getItemIdentifier(pos), (Fragment.SavedState) fs) : null);
 				}
 			}
 			Iterable<String> keys = bundle.keySet();
-			for (String key: keys) {
+			for (String key : keys) {
 				if (key.startsWith("f")) {
 					int index = Integer.parseInt(key.substring(1));
 					Fragment f = mFragmentManager.getFragment(bundle, key);
@@ -180,6 +225,16 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 					}
 				}
 			}
+		}
+	}
+
+	private class SavedStateInfo {
+		Object identifier;
+		Fragment.SavedState state;
+
+		public SavedStateInfo(Object identifier, Fragment.SavedState state) {
+			this.identifier = identifier;
+			this.state = state;
 		}
 	}
 }

@@ -17,13 +17,16 @@
 package com.vincestyling.traversaless;
 
 import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
- * Implementation of {@link android.support.v4.view.PagerAdapter} that
- * represents each page as a {@link Fragment} that is persistently
+ * Implementation of {@link PagerAdapter} that
+ * represents each page as a {@link android.support.v4.app.Fragment} that is persistently
  * kept in the fragment manager as long as the user can return to the page.
  */
 public abstract class FragmentPagerAdapter extends PagerAdapter {
@@ -44,7 +47,7 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
 	public abstract Fragment getItem(int position);
 
 	@Override
-	public void startUpdate(View container) {
+	public void startUpdate(ViewGroup container) {
 	}
 
 	@Override
@@ -78,13 +81,23 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
 			mCurTransaction = mFragmentManager.beginTransaction();
 		}
 		if (DEBUG) Log.v(TAG, "Detaching item #" + position + ": f=" + object
-				+ " v=" + ((Fragment)object).getView());
-		mCurTransaction.detach((Fragment)object);
+				+ " v=" + ((Fragment) object).getView());
+		mCurTransaction.detach((Fragment) object);
+	}
+
+	@Override
+	public void dismissItem(View container, int position, Object object) {
+		if (mCurTransaction == null) {
+			mCurTransaction = mFragmentManager.beginTransaction();
+		}
+		if (DEBUG) Log.v(TAG, "Dismiss item #" + position + ": f=" + object
+				+ " v=" + ((Fragment) object).getView());
+		mCurTransaction.remove((Fragment) object);
 	}
 
 	@Override
 	public void setPrimaryItem(View container, int position, Object object) {
-		Fragment fragment = (Fragment)object;
+		Fragment fragment = (Fragment) object;
 		if (fragment != mCurrentPrimaryItem) {
 			if (mCurrentPrimaryItem != null) {
 				mCurrentPrimaryItem.setMenuVisibility(false);
@@ -107,7 +120,7 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
 
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
-		return ((Fragment)object).getView() == view;
+		return ((Fragment) object).getView() == view;
 	}
 
 	@Override

@@ -17,14 +17,18 @@
 package com.vincestyling.traversaless;
 
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.List;
 
 /**
  * Base class providing the adapter to populate pages inside of
  * a {@link ViewPager}.  You will most likely want to use a more
  * specific implementation of this, such as
- * {@link android.support.v4.app.FragmentPagerAdapter} or
- * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+ * {@link FragmentPagerAdapter} or
+ * {@link FragmentStatePagerAdapter}.
  */
 public abstract class PagerAdapter {
 	private DataSetObserver mObserver;
@@ -49,13 +53,35 @@ public abstract class PagerAdapter {
 	 * @param container The containing View which is displaying this adapter's
 	 * page views.
 	 */
-	public abstract void startUpdate(View container);
+	public void startUpdate(ViewGroup container) {
+		startUpdate((View) container);
+	}
+
+	/**
+	 * Called when a change in the shown pages is going to start being made.
+	 * @param container The containing View which is displaying this adapter's
+	 * page views.
+	 *
+	 * @deprecated Use {@link #startUpdate(ViewGroup)}
+	 */
+	public void startUpdate(View container) {
+	}
+
+	/**
+	 * When adapter dataSet is changed, each page state might be discard
+	 * or move into new position, so we should adjust the page states to
+	 * the right place, rearrange all page states by the new item count.
+	 * Only available for {@link FragmentStatePagerAdapter}.
+	 * @param newItemCount The new dataset length.
+	 */
+	public void rearrangeSavedStates(int newItemCount) {
+	}
 
 	/**
 	 * Create the page for the given position.  The adapter is responsible
 	 * for adding the view to the container given here, although it only
 	 * must ensure this is done by the time it returns from
-	 * {@link #finishUpdate()}.
+	 * {@link #finishUpdate(android.view.View)}
 	 *
 	 * @param container The containing View in which the page will be shown.
 	 * @param position The page position to be instantiated.
@@ -67,7 +93,7 @@ public abstract class PagerAdapter {
 	/**
 	 * Remove a page for the given position.  The adapter is responsible
 	 * for removing the view from its container, although it only must ensure
-	 * this is done by the time it returns from {@link #finishUpdate()}.
+	 * this is done by the time it returns from {@link #finishUpdate(android.view.View)}.
 	 *
 	 * @param container The containing View from which the page will be removed.
 	 * @param position The page position to be removed.
@@ -75,6 +101,26 @@ public abstract class PagerAdapter {
 	 * {@link #instantiateItem(View, int)}.
 	 */
 	public abstract void destroyItem(View container, int position, Object object);
+
+	/**
+	 * Dismiss a page for the given position, called when dataSet changed and which
+	 * page no longer exists.
+	 * @param container The containing View from which the page will be removed.
+	 * @param position The page position to be removed.
+	 * @param object The same object that was returned by
+	 * {@link #instantiateItem(View, int)}.
+	 */
+	public abstract void dismissItem(View container, int position, Object object);
+
+	/**
+	 * Rearrange all page to the new position.  When adapter dataSet is changed,
+	 * each page might be discard or move into new position, so we should adjust
+	 * the page collection.
+	 * Only available for {@link FragmentStatePagerAdapter}.
+	 * @param fragments The new fragment collection.
+	 */
+	public void rearrangeItems(List<Fragment> fragments) {
+	}
 
 	/**
 	 * Called to inform the adapter of which item is currently considered to
@@ -120,6 +166,30 @@ public abstract class PagerAdapter {
 	 */
 	public int getItemPosition(Object object) {
 		return POSITION_UNCHANGED;
+	}
+
+	/**
+	 * Called when {@link #destroyItem(android.view.View, int, Object)} destroying
+	 * a page to saving it State, this identifier used to keep the
+	 * State on track when dataSet changed.
+	 * Only available for {@link FragmentStatePagerAdapter}.
+	 * @param position The page position.
+	 * @return The item's identifier, usually is page Class.
+	 */
+	public Object getItemIdentifier(int position) {
+		return null;
+	}
+
+	/**
+	 * This method may be called by the ViewPager to obtain a title string
+	 * to describe the specified page. This method may return null
+	 * indicating no title for this page. The default implementation returns
+	 * null.
+	 * @param position The position of the title requested
+	 * @return A title for the requested page
+	 */
+	public CharSequence getPageTitle(int position) {
+		return null;
 	}
 
 	/**
