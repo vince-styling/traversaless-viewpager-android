@@ -45,7 +45,7 @@ can't work without it, you should add the support jar into your libraries.
 
 # Usage
 
-The useage have nothing change, only the package location, enjoy it like you do with ViewPager before.
+The usage have nothing change, only the package location, enjoy it like you do with ViewPager before.
 
 # Underwent
 
@@ -57,7 +57,7 @@ put those code who weren't doing scroll animation behind, cooperate with the IDE
 
 If you want to compile this project, you should make the `android-support-v4.jar` as library or install it into the maven repository :
 
-```xml
+```bash
 mvn install:install-file
     -Dfile=lib/android-support-v4.jar
     -DgroupId=com.google.android
