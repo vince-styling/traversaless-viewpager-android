@@ -4,6 +4,8 @@
 Traversaless(traversal less) ViewPager was born as an enhance ViewPager, it's mission was to solve the scroll
 too much problem for me, but I believe this problem also share with others, so I made this project and release it.
 
+![integration with different](/integration_with_different.gif "integration with different")
+
 # What's the problem
 
 Let's say we have five pages inside the ViewPager, now the first page is shown, after that, we click the corresponding button
