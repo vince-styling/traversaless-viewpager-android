@@ -49,7 +49,7 @@ can't work without it, you should add the support jar into your libraries.
 
 The usage have nothing change, only the package location, enjoy it like you do with ViewPager before.
 
-# Underwent
+# Undergo
 
 This widget base on android-support-v4 `4.0.1_r1` version, when I try to make clear how it work,
 I realize it's bit complicated than I unable to fully get it mind, so I split the source code as two classes,
