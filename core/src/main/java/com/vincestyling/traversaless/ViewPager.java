@@ -55,7 +55,7 @@ public class ViewPager extends ViewGroup {
 	private static final boolean USE_CACHE = false;
 
 	private static final int DEFAULT_OFFSCREEN_PAGES = 1;
-	private static final int MAX_SETTLE_DURATION = 600; // ms
+	private static final int MAX_SETTLE_DURATION = 1000; // ms
 
 	static class ItemInfo {
 		Object object;
@@ -569,7 +569,7 @@ public class ViewPager extends ViewGroup {
 		} else {
 			duration += 100;
 		}
-		duration = Math.min(duration, MAX_SETTLE_DURATION);
+		duration = Math.max(duration, MAX_SETTLE_DURATION);
 
 		mScroller.startScroll(sx, sy, dx, dy, duration);
 		invalidate();

@@ -34,7 +34,7 @@
     <dimen name="frag_text_size">12sp</dimen>
 
     <color name="frag_tab_item_underline">#66c3e1</color>
-    <color name="frag_tab_item_text">#545454</color>
+    <color name="frag_tab_item_text">#ffffff</color>
     <dimen name="frag_tab_item_text">14sp</dimen>
     <dimen name="frag_tab_item_underline">4dp</dimen>
 

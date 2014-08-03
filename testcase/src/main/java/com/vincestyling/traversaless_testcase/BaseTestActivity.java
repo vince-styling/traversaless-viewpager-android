@@ -4,7 +4,7 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
+import com.vincestyling.v4_4_4_r1.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -189,7 +189,7 @@ public abstract class BaseTestActivity extends FragmentActivity implements Actio
 	}
 
 	private void displayOriginalViewPager() {
-		final android.support.v4.view.ViewPager viewPager = new android.support.v4.view.ViewPager(this, null);
+		final com.vincestyling.v4_4_4_r1.ViewPager viewPager = new com.vincestyling.v4_4_4_r1.ViewPager(this, null);
 
 		viewPager.setLayoutParams(new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT));
@@ -201,7 +201,7 @@ public abstract class BaseTestActivity extends FragmentActivity implements Actio
 	}
 
 	protected void setOriginalViewPagerAdapter(boolean turnEmpty) {
-		((android.support.v4.view.ViewPager) mViewPagerObj).setAdapter(turnEmpty ? null : buildOriginalPagerAdapter());
+		((com.vincestyling.v4_4_4_r1.ViewPager) mViewPagerObj).setAdapter(turnEmpty ? null : buildOriginalPagerAdapter());
 	}
 
 	private android.support.v4.view.PagerAdapter buildOriginalPagerAdapter() {

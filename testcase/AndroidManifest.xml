@@ -15,7 +15,7 @@
         android:allowBackup="false"
         android:theme="@android:style/Theme.Holo">
         <activity
-            android:name=".MainActivity"
+            android:name=".IndicatorTestActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,7 +24,6 @@
         </activity>
         <activity android:label="DataSet Changed" android:name=".DataSetChangedTestActivity"/>
         <activity android:label="General" android:name=".GeneralTestActivity"/>
-        <activity android:label="Indicator" android:name=".IndicatorTestActivity"/>
         <activity android:label="Scrolling Speed" android:name=".ScrollingSpeedTestActivity"/>
     </application>
 
